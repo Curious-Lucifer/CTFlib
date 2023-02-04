@@ -1,35 +1,10 @@
 from math import gcd
 from gmpy2 import iroot
-from functools import reduce
 from sage.all import var, Integer, NonNegativeIntegerSemiring, Zmod, PolynomialRing, IntegerRing, ceil, floor
 from Crypto.Util.number import long_to_bytes, bytes_to_long
 from Crypto.PublicKey import RSA
 from factordb.factordb import FactorDB
-
-
-# input : a(int), b(int)
-# output : ceil(a / b) (int)
-def ceil_int(a: int, b: int):
-    return (a // b) + (a % b > 0)
-
-
-# input : a(int), b(int)
-# output : floor(a / b) (int)
-def floor_int(a: int, b: int):
-    return a // b
-
-
-# input : a(int), b(int) (a > 0 and b > 0)
-# output : (x, y) (int, int) that satisfy ax + by = gcd(a,b)
-def extended_gcd(a: int,b: int):
-    assert (a > 0) and (b > 0)
-
-    q = a // b
-    r = a % b
-    if (b % r) == 0:
-        return 1,-q
-    x,y = extended_gcd(b,r)
-    return y,(x - q*y)
+from .Utils import crt, ceil_int, floor_int
 
 
 # input : p(int), q(int), e(int), c(int)
@@ -61,20 +36,6 @@ def pollard_algorithm(n: int):
         if 1 < p < n:
             return p
         b += 1
-
-
-# input : a_list(list of int), m_list(list of int) , and assume a_list = [a1, a2, ...], m_list = [m1 ,m2, ...]
-#         x ≡ a1 (mod m1)
-#         x ≡ a2 (mod m2)
-#         ...
-# output : x % M (int) , M = m1 * m2 * ...
-def crt(a_list: list, m_list: list):
-    assert len(a_list) == len(m_list)
-
-    M = reduce(lambda x, y : x * y, m_list)
-    Mi_list = [M // m for m in m_list]
-    ti_list = [pow(i[0],-1,i[1]) for i in zip(Mi_list,m_list)]
-    return sum([i[0] * i[1] * i[2] for i in zip(a_list,ti_list,Mi_list)]) % M
 
 
 # input : e(int), c_list(list of int), n_list(list of int) , assum m^e < n1 * n2 * ... , c_list = [c1, c2, ...], n_list = [n1, n2, ...]

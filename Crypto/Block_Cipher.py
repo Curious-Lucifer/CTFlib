@@ -1,6 +1,6 @@
 from sage.all import var, GF, PolynomialRing
 from Crypto.Util.number import bytes_to_long, long_to_bytes
-from pwn import xor
+from .Utils import xor
 
 
 # input : flag_length(int), oracle(func), r(pwn tubes)

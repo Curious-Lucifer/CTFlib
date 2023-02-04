@@ -5,7 +5,6 @@ pip :
 ```
 gmpy2
 pycryptodome
-pwntools
 factordb-pycli
 ```
 apt :
@@ -23,6 +22,7 @@ sys.path.append('<path of CTFlib>')
 from CTFlib.Crypto.RSA import *
 from CTFlib.Crypto.Block_Cipher import *
 from CTFlib.Crypto.PRNG import *
+from CTFlib.Crypto.Utils import *
 
 '''
 already import :
@@ -33,7 +33,6 @@ from functools import reduce
 from sage.all import var, Integer, NonNegativeIntegerSemiring, Zmod, PolynomialRing, IntegerRing, ceil, floor, GF
 from Crypto.Util.number import long_to_bytes, bytes_to_long
 from Crypto.PublicKey import RSA
-from pwn import xor
 from factordb.factordb import FactorDB
 '''
 
